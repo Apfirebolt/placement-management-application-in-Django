@@ -4,6 +4,17 @@ from placement_management.settings import AUTH_USER_MODEL
 
 
 class CustomUserManager(BaseUserManager):
+    
+    def create_user(self, email, password=None, **extra_fields):
+        """Create, save and return a new user."""
+        if not email:
+            raise ValueError('User must have an email address.')
+        user = self.model(email=self.normalize_email(email), **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+
+        return user
+
     def create_superuser(self, email, password):
         user = self.model(email=email)
         user.set_password(password)
