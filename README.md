@@ -22,7 +22,14 @@ This simple web application assists users sync with the placement preparation pr
 
 ## Features 
 
-To be added later
+Application aims to help professionals/students to keep track of interview preparation for companies. They can login, add questions, 
+interview dates, applications of companies to target, resume uploading and more features are included in the app for the time being.
+
+## Updates
+
+<b>-11/3/23</b>
+
+Vesco template added, since this is not a full fledged attempt to experiment with CSS, I decided to pick an old theme and integrate it into this Django app. Integration is not always easy, sometimes have to make a lot of adjustments with CSS and JS imports to make those compatible with a Django app.
 
 ## Authors
 
