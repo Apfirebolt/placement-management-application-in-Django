@@ -1,0 +1,36 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+#Pycharm and VS Code
+.idea
+.vscode
+
+# dependencies
+node_modules
+media
+/media
+*.sqlite3
+
+# ignore migrations
+**/migrations/
+
+# testing
+/coverage
+
+# production
+/build
+/documentation
+
+# misc
+**/__pycache__/
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore virtual environment
+venv
