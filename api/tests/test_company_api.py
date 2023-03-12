@@ -20,6 +20,11 @@ from api.serializers import (
 COMPANIES_URL = reverse('api:list-create-company')
 
 
+def detail_url(pk):
+    """Create and return a company detail URL."""
+    return reverse('api:crud-company', args=[pk])
+
+
 def create_company(user_id, **params):
     """Create and return a sample company."""
     defaults = {
@@ -42,7 +47,7 @@ class PublicCompanyAPITests(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-    def test_no_auth_required(self):
+    def test_auth_required(self):
         """Test no auth is required to call API."""
         res = self.client.get(COMPANIES_URL)
 
@@ -68,9 +73,61 @@ class PrivateCompanyApiTests(TestCase):
         serializer = CompanySerializer(companies, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         # self.assertEqual(res.data, serializer.data)
+    
+
+    def test_create_company(self):
+        """Test creating a company."""
+        payload = {
+            'name': 'Sample company',
+        }
+        res = self.client.post(COMPANIES_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        recipe = Company.objects.get(id=res.data['id'])
+        for k, v in payload.items():
+            self.assertEqual(getattr(recipe, k), v)
+        self.assertEqual(recipe.user_id, self.user)
+
+    
+    def test_get_company_detail(self):
+        """Test get company detail."""
+        company = create_company(user_id=self.user)
+
+        url = detail_url(company.id)
+        res = self.client.get(url)
+
+        serializer = CompanySerializer(company)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
 
 
-        
+    def test_partial_company_update(self):
+        """Test partial update of a company."""
+        company = create_company(
+            user_id=self.user,
+            name='Sample company title',
+        )
+
+        payload = {'name': 'New company title'}
+        url = detail_url(company.id)
+        res = self.client.put(url, payload)
+        # res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        company.refresh_from_db()
+        self.assertEqual(company.name, payload['name'])
+        self.assertEqual(company.user_id, self.user)
+
+    
+    def test_delete_company(self):
+        """Test deleting a company successful."""
+        company = create_company(user_id=self.user)
+
+        url = detail_url(company.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Company.objects.filter(id=company.id).exists())
 
 
    

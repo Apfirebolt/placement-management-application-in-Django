@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from . serializers import ListCustomUserSerializer, CustomUserSerializer, CustomTokenObtainPairSerializer, CompanySerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -26,5 +26,11 @@ class CompanyCreateListApiView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         request = serializer.context['request']
-        serializer.save(user_id=request.user.id)
+        serializer.save(user_id=request.user)
+
+
+class CompanyUpdateDeleteRetrieveApiView(RetrieveUpdateDestroyAPIView):
+    serializer_class = CompanySerializer
+    queryset = Company.objects.all()
+    permission_classes = [IsAuthenticated]
 
