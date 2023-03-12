@@ -100,14 +100,14 @@ class Interview(models.Model):
 
 class Offer(models.Model):
     user_id = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
-    application_id = models.ForeignKey(Application, on_delete=models.CASCADE)
+    company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
     notes = models.TextField("Additional Notes", blank=True, null=True)
     ctc = models.CharField("CTC Break UP", max_length=255, null=True, blank=True)
     received_at = models.DateTimeField()
     is_accepted = models.BooleanField("Offer Accepted", default=False)
 
     def __str__(self):
-        return '(%s, %s)' % (self.user_id, self.application_id)
+        return '(%s, %s)' % (self.user_id, self.company_id)
 
     class Meta:
         verbose_name_plural = "Offers"
