@@ -1,6 +1,7 @@
 """
-Tests for application APIs.
+Tests for interview APIs.
 """
+from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -71,6 +72,55 @@ class PrivateInterviewApiTests(TestCase):
         self.client = APIClient()
         self.user = create_user(email='user@example.com', password='test123')
         self.client.force_authenticate(self.user)
+
+
+    def test_create_interview(self):
+        """Test creating an interview."""
+        sample_company = create_company(user_id=self.user, name='Samsung')
+        sample_application = create_application(
+            user_id=self.user,
+            notes='Sample Notes',
+            source='Sample Source',
+            company_id=sample_company
+        )
+
+        payload = {
+            'application_id': sample_application.id,
+            'notes': 'Some interview notes',
+            'round': 'Second Round',
+            'result': 'Passed',
+            'scheduled_at': datetime.now()
+        }
+
+        res = self.client.post(INTERVIEWS_URL, payload)
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        interview = Interview.objects.get(id=res.data['id'])
+        self.assertEqual(interview.application_id, sample_application)
+        self.assertEqual(interview.notes, payload['notes'])
+
+    
+    def test_retrieve_interviews(self):
+        """Test retrieving a list of interviews."""
+        sample_company = create_company(user_id=self.user, name='Samsung')
+        sample_application = create_application(
+            user_id=self.user,
+            notes='Sample Notes',
+            source='Sample Source',
+            company_id=sample_company
+        )
+        create_interview(application_id=sample_application, round='First Round', notes='Note Two', result='Passed', scheduled_at=datetime.now())
+        create_interview(application_id=sample_application, round='Second Round', notes='Note One', result='Failed', scheduled_at=datetime.now())
+
+        res = self.client.get(INTERVIEWS_URL)
+
+        interviews = Interview.objects.all().order_by('-id')
+        serializer = InterviewSerializer(interviews, many=True)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        # self.assertEqual(res.data, serializer.data)
+
+    
+    
+
     
 
     
