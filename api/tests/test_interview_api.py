@@ -119,7 +119,79 @@ class PrivateInterviewApiTests(TestCase):
         # self.assertEqual(res.data, serializer.data)
 
     
+    def test_get_interview_detail(self):
+        """Test get interview detail."""
+        company = create_company(user_id=self.user)
+        application = create_application(user_id=self.user, company_id=company, notes='One Note', source='One Source')
+        interview = create_interview(application_id=application, round='First Round', notes='Note Two', result='Passed', scheduled_at=datetime.now())
+
+        url = detail_url(interview.id)
+        res = self.client.get(url)
+
+        serializer = InterviewSerializer(interview)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
+
     
+    def test_partial_application_update(self):
+        """Test partial update of an interview."""
+        company = create_company(
+            user_id=self.user,
+            name='Sample company title',
+        )
+
+        application = create_application(
+            user_id=self.user,
+            company_id=company,
+            notes='One Note',
+            source='One Source'
+        )
+
+        interview = create_interview(
+            application_id=application, 
+            round='First Round', 
+            notes='Note Two', 
+            result='Passed', 
+            scheduled_at=datetime.now()
+        )
+        payload = {'result': 'Failed'}
+        url = detail_url(interview.id)
+        # res = self.client.put(url, payload)
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        interview.refresh_from_db()
+        self.assertEqual(interview.result, payload['result'])
+        self.assertEqual(interview.application_id, application)
+
+    
+    def test_delete_interview(self):
+        """Test deleting an intervoew successful."""
+        company = create_company(user_id=self.user)
+
+        application = create_application(
+            user_id=self.user,
+            company_id=company,
+            notes='One Note',
+            source='One Source'
+        )
+
+        interview = create_interview(
+            application_id=application, 
+            round='First Round', 
+            notes='Note Two', 
+            result='Passed', 
+            scheduled_at=datetime.now()
+        )
+
+        url = detail_url(interview.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Interview.objects.filter(id=interview.id).exists())
+
+    
+
 
     
 
