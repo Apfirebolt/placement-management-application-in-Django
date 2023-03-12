@@ -1,6 +1,6 @@
 from django.urls import path
 from . views import ListCustomUsersApiView, CreateCustomUserApiView, CompanyCreateListApiView, CompanyUpdateDeleteRetrieveApiView \
-    , QuestionCreateListApiView, QuestionUpdateDeleteRetrieveApiView
+    , QuestionCreateListApiView, QuestionUpdateDeleteRetrieveApiView, ApplicationCreateListApiView, ApplicationUpdateDeleteRetrieveApiView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -15,4 +15,6 @@ urlpatterns = [
     path('company/<int:pk>', CompanyUpdateDeleteRetrieveApiView.as_view(), name='crud-company'),
     path('question', QuestionCreateListApiView.as_view(), name='list-create-question'),
     path('question/<int:pk>', QuestionUpdateDeleteRetrieveApiView.as_view(), name='crud-question'),
+    path('application', ApplicationCreateListApiView.as_view(), name='list-create-application'),
+    path('application/<int:pk>', ApplicationUpdateDeleteRetrieveApiView.as_view(), name='crud-application'),
 ]
