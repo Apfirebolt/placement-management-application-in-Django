@@ -1,10 +1,10 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from . serializers import ListCustomUserSerializer, CustomUserSerializer, CustomTokenObtainPairSerializer, CompanySerializer \
-    , QuestionSerializer, ApplicationSerializer
+    , QuestionSerializer, ApplicationSerializer, InterviewSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from core.models import CustomUser, Company, Question, Application
+from core.models import CustomUser, Company, Question, Application, Interview
 
 
 class CreateCustomUserApiView(CreateAPIView):
@@ -68,5 +68,21 @@ class ApplicationCreateListApiView(ListCreateAPIView):
 class ApplicationUpdateDeleteRetrieveApiView(RetrieveUpdateDestroyAPIView):
     serializer_class = ApplicationSerializer
     queryset = Application.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+class InterviewCreateListApiView(ListCreateAPIView):
+    serializer_class = InterviewSerializer
+    queryset = Interview.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        application = get_object_or_404(Application, id=serializer.validated_data['application_id'].id)
+        serializer.save(application_id=application)
+
+
+class InterviewUpdateDeleteRetrieveApiView(RetrieveUpdateDestroyAPIView):
+    serializer_class = InterviewSerializer
+    queryset = Interview.objects.all()
     permission_classes = [IsAuthenticated]
 
