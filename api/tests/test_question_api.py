@@ -13,7 +13,7 @@ from core.models import (
 )
 
 from api.serializers import (
-    CompanySerializer, QuestionSerializer
+    QuestionSerializer
 )
 
 
