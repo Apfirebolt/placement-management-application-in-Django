@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import CustomUser
+from core.models import CustomUser, Company
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -51,3 +51,11 @@ class ListCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('id', 'username', 'email', 'firstName', 'lastName', 'is_staff',)
+
+
+class CompanySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Company
+        fields = '__all__'
+        read_only_fields = ['user_id']
