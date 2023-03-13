@@ -1,10 +1,10 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from . serializers import ListCustomUserSerializer, CustomUserSerializer, CustomTokenObtainPairSerializer, CompanySerializer \
-    , QuestionSerializer, ApplicationSerializer, InterviewSerializer, OfferSerializer
+    , QuestionSerializer, ApplicationSerializer, InterviewSerializer, OfferSerializer, ResumeSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from core.models import CustomUser, Company, Question, Application, Interview, Offer
+from core.models import CustomUser, Company, Question, Application, Interview, Offer, Resume
 
 
 class CreateCustomUserApiView(CreateAPIView):
@@ -102,3 +102,14 @@ class OfferUpdateDeleteRetrieveApiView(RetrieveUpdateDestroyAPIView):
     serializer_class = OfferSerializer
     queryset = Offer.objects.all()
     permission_classes = [IsAuthenticated]
+
+
+class ResumeCreateListApiView(ListCreateAPIView):
+    serializer_class = ResumeSerializer
+    queryset = Resume.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        request = serializer.context['request']
+        company = get_object_or_404(Company, id=serializer.validated_data['company_id'].id)
+        serializer.save(user_id=request.user, company_id=company)

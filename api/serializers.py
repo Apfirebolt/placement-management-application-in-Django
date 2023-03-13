@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import CustomUser, Company, Question, Application, Interview, Offer
+from core.models import CustomUser, Company, Question, Application, Interview, Offer, Resume
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -88,5 +88,13 @@ class OfferSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Offer
+        fields = '__all__'
+        read_only_fields = ['user_id',]
+
+
+class ResumeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Resume
         fields = '__all__'
         read_only_fields = ['user_id',]

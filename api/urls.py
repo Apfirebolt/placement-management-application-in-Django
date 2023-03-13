@@ -1,7 +1,8 @@
 from django.urls import path
 from . views import ListCustomUsersApiView, CreateCustomUserApiView, CompanyCreateListApiView, CompanyUpdateDeleteRetrieveApiView \
     , QuestionCreateListApiView, QuestionUpdateDeleteRetrieveApiView, ApplicationCreateListApiView, ApplicationUpdateDeleteRetrieveApiView \
-    , InterviewCreateListApiView, InterviewUpdateDeleteRetrieveApiView, OfferCreateListApiView, OfferUpdateDeleteRetrieveApiView
+    , InterviewCreateListApiView, InterviewUpdateDeleteRetrieveApiView, OfferCreateListApiView, OfferUpdateDeleteRetrieveApiView \
+    , ResumeCreateListApiView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -22,4 +23,5 @@ urlpatterns = [
     path('interview/<int:pk>', InterviewUpdateDeleteRetrieveApiView.as_view(), name='crud-interview'),
     path('offer', OfferCreateListApiView.as_view(), name='list-create-offer'),
     path('offer/<int:pk>', OfferUpdateDeleteRetrieveApiView.as_view(), name='crud-offer'),
+    path('resume', ResumeCreateListApiView.as_view(), name='list-create-resume'),
 ]
