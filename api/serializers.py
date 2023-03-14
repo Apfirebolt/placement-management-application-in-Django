@@ -22,7 +22,13 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        help_text='Leave empty if no change needed',
+        min_length=8,
+        style={'input_type': 'password', 'placeholder': 'Password'}
+    )
     access = serializers.SerializerMethodField()
     refresh = serializers.SerializerMethodField()
 
