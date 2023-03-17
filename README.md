@@ -1,9 +1,15 @@
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
 ![Django Rest Framework](https://img.shields.io/badge/django%20rest-ff1709?style=for-the-badge&logo=django&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
 # A Placement Management System
 
-This simple web application assists users sync with the placement preparation process with various features it has.
+This simple web application assists users sync with the placement preparation process with various features it has. Contains API for user authentication, adding companies to prepare for, interviews and upload resumes.
+
+http://localhost:8000/api-docs/
+
+The API docs can be viewed using the above link. Swagger is used to generate API docs under the hood using a package called 'drf_spectacular'.
 
 ## Getting Started
 
@@ -17,8 +23,10 @@ This simple web application assists users sync with the placement preparation pr
 
 ## Built With
 
+
 * [Python Django](https://www.djangoproject.com/)
-* [Materialize CSS](https://materializecss.com/)
+* [Django Rest Framework](https://www.django-rest-framework.org/)
+* [Swagger Docs](https://swagger.io/)
 
 ## Features 
 
@@ -30,6 +38,10 @@ interview dates, applications of companies to target, resume uploading and more 
 <b>-11/3/23</b>
 
 Vesco template added, since this is not a full fledged attempt to experiment with CSS, I decided to pick an old theme and integrate it into this Django app. Integration is not always easy, sometimes have to make a lot of adjustments with CSS and JS imports to make those compatible with a Django app.
+
+<b>-17/3/23</b>
+
+Removed the template added previously. For now, I plan to only have APIs for it with no multi-page front-end.
 
 ## Authors
 
