@@ -87,7 +87,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'placement_management',
-        'USER': 'postgres',
+        'USER': 'amit',
         'PASSWORD': 'pass123',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '5432',
