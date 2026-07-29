@@ -61,10 +61,20 @@ class ListCustomUserSerializer(serializers.ModelSerializer):
 
 class CompanySerializer(serializers.ModelSerializer):
 
+    # Perform create
+    def create(self, validated_data):
+        company = Company.objects.create(**validated_data)
+        return company
+    
     class Meta:
         model = Company
         fields = '__all__'
         read_only_fields = ['user_id']
+
+    def validate_name(self, value):
+        if value == "test":
+            raise serializers.ValidationError("Test is not a valid value")
+        return value
 
 
 class QuestionSerializer(serializers.ModelSerializer):

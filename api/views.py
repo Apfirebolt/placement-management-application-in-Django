@@ -7,6 +7,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from core.models import CustomUser, Company, Question, Application, Interview, Offer, Resume
 
 
+
 class CreateCustomUserApiView(CreateAPIView):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
