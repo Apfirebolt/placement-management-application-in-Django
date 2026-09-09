@@ -1,0 +1,45 @@
+[run]
+# Measure branch coverage (checks both True/False branches of if/else statements)
+branch = True
+
+# Directory or package to track
+source = .
+
+# Exclude generated, setup, and test files from coverage calculations
+omit =
+    */migrations/*
+    */tests/*
+    *test_*.py
+    manage.py
+    */wsgi.py
+    */asgi.py
+    */settings/*
+    */urls.py
+    venv/*
+    .venv/*
+    env/*
+
+[report]
+# Do not count files that are completely covered
+skip_covered = False
+
+# Show line numbers of uncovered code in terminal
+show_missing = True
+
+# Precision of the reported coverage percentage
+precision = 2
+
+# Lines to ignore in analysis (boilerplate, abstract methods, debug logs)
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    def __str__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    if settings.DEBUG:
+    if TYPE_CHECKING:
+
+[html]
+# Directory where coverage html will write the dashboard
+directory = htmlcov

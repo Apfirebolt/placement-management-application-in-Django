@@ -34,3 +34,8 @@ yarn-error.log*
 
 # Ignore virtual environment
 venv
+
+# ignore coverage reports
+coverage/
+htmlcov/
+.coverage

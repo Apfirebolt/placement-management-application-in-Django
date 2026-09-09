@@ -33,6 +33,25 @@ The API docs can be viewed using the above link. Swagger is used to generate API
 Application aims to help professionals/students to keep track of interview preparation for companies. They can login, add questions, 
 interview dates, applications of companies to target, resume uploading and more features are included in the app for the time being.
 
+## Adding test coverage
+
+Install coverage (or pytest-cov if you use Pytest) to track which serializers, viewsets, and permissions are exercised by your Django REST Framework test suite.
+
+`pip install coverage`
+
+Create a .coveragerc file in your project root alongside manage.py to exclude test files, migrations, and virtual environments:
+
+Execute the tests wrapped by coverage
+
+`coverage run manage.py test`
+
+Get coverage reports in Terminal and through interactive HTML
+
+`
+coverage report -m
+coverage html
+`
+
 ## Updates
 
 <b>-11/3/23</b>
